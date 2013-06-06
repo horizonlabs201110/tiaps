@@ -1,0 +1,107 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2011-12-19 22:17:46 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping package="cn.npnt.tiaps.entity">
+	<class name="Look" table="look" catalog="tiaps" where="deleted=0">
+		<id name="id">
+			<column name="id" />
+			<generator class="increment" />
+		</id>
+		<version name="version" type="int">
+			<column name="version" not-null="true" />
+		</version>
+		<many-to-one name="user" class="User" fetch="select">
+			<column name="user_id" not-null="true" />
+		</many-to-one>
+		<many-to-one name="lookByParentId" class="Look"
+			fetch="select">
+			<column name="parent_id">
+			</column>
+		</many-to-one>
+		<many-to-one name="lookByOriginalId" class="Look"
+			fetch="select">
+			<column name="original_id">
+			</column>
+		</many-to-one>
+		<property name="deleted" type="boolean">
+			<column name="deleted" not-null="true" />
+		</property>
+		<property name="parentDeleted" type="boolean">
+			<column name="parent_deleted" not-null="true" />
+		</property>
+		<property name="createTime" type="timestamp">
+			<column name="create_time" length="19" not-null="true" />
+		</property>
+		<property name="displayTime" type="timestamp">
+			<column name="display_time" length="19" />
+		</property>
+		<property name="occasionId" type="java.lang.Long">
+			<column name="occasion_id" />
+		</property>
+		<property name="text" type="string">
+			<column name="text">
+			</column>
+		</property>
+		<property name="searchText" type="string">
+            <column name="search_text" />
+        </property>
+		<property name="repostType" type="java.lang.Byte">
+			<column name="repost_type">
+			</column>
+		</property>
+		<set name="photos" cascade="all" table="photo" inverse="true" lazy="false" fetch="select">
+			<key>
+				<column name="look_id" not-null="true" />
+			</key>
+			<one-to-many class="Photo" />
+		</set>
+		<!-- <set name="mentions" table="mention" inverse="true" lazy="true" fetch="select"> 
+			<key> <column name="look_id" not-null="true" /> </key> <one-to-many class="Mention" 
+			/> </set> -->
+		<set name="lookTrends" cascade="all" table="look_trend" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="look_id" not-null="true" />
+			</key>
+			<one-to-many class="LookTrend" />
+		</set>
+		<one-to-one lazy="false" cascade="all" name="lookStatistic" class="LookStatistic"></one-to-one>
+		
+		<!-- <set name="comments" table="comment" inverse="true" lazy="true" fetch="select"> 
+			<key>
+				<column name="look_id" not-null="true" /> </key>
+				<one-to-many class="Comment" />
+		</set> -->
+		<set name="looksForOriginalId" table="look" inverse="true" lazy="true"
+			fetch="select">
+			<key>
+				<column name="original_id"></column>
+			</key>
+			<one-to-many class="Look" />
+		</set>
+		<!-- <set name="looksForParentId" 
+			table="look" inverse="true" lazy="true" fetch="select">
+				<key>
+					<column name="parent_id"></column> 
+				</key> 
+			<one-to-many class="Look" />
+		</set>  -->
+		<!-- <set name="timelines" table="timeline" inverse="true" lazy="true" 
+			fetch="select"> <key> <column name="look_id" not-null="true" /> </key> <one-to-many 
+			class="Timeline" /> </set> <set name="looksForParentId" 
+			table="look" inverse="true" lazy="true" fetch="select"> <key> <column name="parent_id"> 
+			<comment> &#215;&#170;&#183;&#162;&#181;&#196;&#201;&#207;&#210;&#187;&#188;&#182;,&#200;&#231;&#185;&#251;parent_id&#206;&#170;&#191;&#213;&#187;&#242;&#213;&#223;original_id==id,&#212;&#242;&#206;&#170;&#212;&#173;&#180;&#180;</comment> 
+			</column> </key> <one-to-many class="Look" /> </set> 
+			<set name="votes" table="vote" inverse="true" lazy="true" fetch="select"> 
+			<key> <column name="look_id" /> </key> <one-to-many class="Vote" 
+			/> </set> <set name="favorites" table="favorite" inverse="true" lazy="true" 
+			fetch="select"> <key> <column name="look_id" not-null="true" /> </key> <one-to-many 
+			class="Favorite" /> </set> <set name="timeLines" table="time_line" 
+			inverse="true" lazy="true" fetch="select"> <key> <column name="look_id" /> 
+			</key> <one-to-many class="TimeLine" /> </set> <set 
+			name="shareToSnses" table="share_to_sns" inverse="true" lazy="true" fetch="select"> 
+			<key> <column name="look_id" not-null="true" /> </key> <one-to-many class="ShareToSns" 
+			/> </set> -->
+	</class>
+</hibernate-mapping>

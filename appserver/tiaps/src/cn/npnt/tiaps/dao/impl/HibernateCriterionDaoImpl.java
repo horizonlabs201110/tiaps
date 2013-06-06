@@ -1,0 +1,1 @@
+package cn.npnt.tiaps.dao.impl;import cn.npnt.tiaps.base.dao.impl.HibernateGenericDao;import cn.npnt.tiaps.dao.CriterionDao;import cn.npnt.tiaps.entity.Criterion;public class HibernateCriterionDaoImpl extends HibernateGenericDao<Criterion, Long> implements CriterionDao {}

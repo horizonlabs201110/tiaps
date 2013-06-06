@@ -1,0 +1,1 @@
+package cn.npnt.tiaps.service;import java.util.List;import cn.npnt.tiaps.entity.Brand;/** * @company 新和新拓（北京）科技有限公司 * @author Recoba Gan * @createDate 2011 2011-12-20 下午6:48:14 * @description 品牌service接口类 */public interface BrandService {	List<Brand> getAll();		Brand getByPK(long id);	}

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2011-12-22 23:49:30 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="cn.npnt.tiaps.entity.WearBrand" table="wear_brand" catalog="tiaps">
+        <id name="id">
+            <column name="id" />
+            <generator class="increment" />
+        </id>
+        <many-to-one name="photo" class="cn.npnt.tiaps.entity.Photo" fetch="select">
+            <column name="photo_id" not-null="true" />
+        </many-to-one>
+        <property name="brand" type="string">
+            <column name="brand" not-null="true" />
+        </property>
+        <property name="clothing" type="string">
+            <column name="clothing" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- 属性文件读入 -->
+	<!-- <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> 
+		<property name="locations"> <list> <value>classpath*:properties/jndi.properties</value> 
+		</list> </property> </bean> -->
+
+
+	<!-- definitions span multiple XML files <import resource="services.xml"/> -->
+	<!-- 装配数据源 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://localhost:3306/tiaps</value>
+		</property>
+		<property name="username">
+			<value>tiaps</value>
+		</property>
+		<property name="password"> 
+			<value>tiapsas</value> 
+			</property>
+	</bean>
+
+	<!-- jobs(quartz) 需要的数据源 -->
+	<bean id="commonDataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<property name="url">
+			<value>jdbc:mysql://localhost:3306/quartz</value>
+		</property>
+		<property name="username">
+			<value>tiaps</value>
+		</property>
+		<property name="password"> 
+		 	<value>tiapsas</value> 
+		</property>
+	</bean>
+	<!-- 灵活运用jbdc sql 模板 -->
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+	</bean>
+	<!-- 配置sessionFactory -->
+	<bean id="mySessionFactory"
+		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mappingResources">
+			<list>
+				<value>hbm\User.hbm.xml</value>
+				<value>hbm\Trend.hbm.xml</value>
+				<value>hbm\Occasion.hbm.xml</value>
+				<value>hbm\Brand.hbm.xml</value>
+				<value>hbm\Criterion.hbm.xml</value>
+				<value>hbm\Friendship.hbm.xml</value>
+				<value>hbm\Photo.hbm.xml</value>
+				<value>hbm\Look.hbm.xml</value>
+				<value>hbm\WearBrand.hbm.xml</value>
+				<value>hbm\LookTrend.hbm.xml</value>
+				<value>hbm\LookStatistic.hbm.xml</value>
+				<value>hbm\Timeline.hbm.xml</value>
+				<value>hbm\Favorite.hbm.xml</value>
+				<value>hbm\Mention.hbm.xml</value>
+				<value>hbm\Vote.hbm.xml</value>
+				<value>hbm\Comment.hbm.xml</value>
+				<value>hbm\CommentAgree.hbm.xml</value>
+				<value>hbm\ShareToSns.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">
+					org.hibernate.dialect.MySQLDialect
+				</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.use_sql_comments">true</prop>
+				<prop key="hibernate.default_batch_fetch_size">8</prop>
+				<prop key="hibernate.current_session_context_class">thread</prop>
+				<prop key="hibernate.generate_statistics">true</prop>
+				<prop key="hibernate.id.new_generator_mappings">true</prop>
+				<!-- 连接池 -->
+				<prop key="hibernate.c3p0.min_size">5</prop>
+				<prop key="hibernate.c3p0.max_size">20</prop>
+				<prop key="hibernate.c3p0.timeout">1800</prop>
+				<prop key="hibernate.c3p0.max_statements">50</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 配置DAO -->
+
+	<bean id="userDao" class="cn.npnt.tiaps.dao.impl.HibernateUserDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory" />
+	</bean>
+	<bean id="trendDao" class="cn.npnt.tiaps.dao.impl.HibernateTrendDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory" />
+	</bean>
+	<bean id="occasionDao" class="cn.npnt.tiaps.dao.impl.HibernateOccasionDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory" />
+	</bean>
+	<bean id="brandDao" class="cn.npnt.tiaps.dao.impl.HibernateBrandDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory" />
+	</bean>
+	<bean id="criterionDao" class="cn.npnt.tiaps.dao.impl.HibernateCriterionDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory" />
+	</bean>
+	<bean id="friendshipDao" class="cn.npnt.tiaps.dao.impl.HibernateFriendshipDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory" />
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	<bean id="lookDao" class="cn.npnt.tiaps.dao.impl.HibernateLookDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory" />
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	<bean id="photoDao" class="cn.npnt.tiaps.dao.impl.HibernatePhotoDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory" />
+	</bean>
+	<bean id="commentDao" class="cn.npnt.tiaps.dao.impl.HibernateCommentDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory" />
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	<bean id="commentAgreeDao" class="cn.npnt.tiaps.dao.impl.HibernateCommentAgreeDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory" />
+	</bean>
+	<bean id="favoriteDao" class="cn.npnt.tiaps.dao.impl.HibernateFavoriteDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory" />
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	<bean id="voteDao" class="cn.npnt.tiaps.dao.impl.HibernateVoteDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory" />
+		<property name="jdbcTemplate" ref="jdbcTemplate" />
+	</bean>
+	<bean id="timelineDao" class="cn.npnt.tiaps.dao.impl.HibernateTimelineDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory" />
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+	</bean>
+	<bean id="mentionDao" class="cn.npnt.tiaps.dao.impl.HibernateMentionDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory" />
+	</bean>
+	<bean id="shareToSnsDao" class="cn.npnt.tiaps.dao.impl.HibernateShareToSnsDaoImpl">
+		<property name="sessionFactory" ref="mySessionFactory" />
+	</bean>
+
+
+	<!--配置 Service -->
+	<bean id="userService" class="cn.npnt.tiaps.service.impl.UserServiceImpl"
+		scope="prototype">
+		<property name="userDao" ref="userDao" />
+	</bean>
+	<bean id="trendService" class="cn.npnt.tiaps.service.impl.TrendServiceImpl"
+		scope="prototype">
+		<property name="trendDao" ref="trendDao" />
+	</bean>
+	<bean id="occasionService" class="cn.npnt.tiaps.service.impl.OccasionServiceImpl"
+		scope="prototype">
+		<property name="occasionDao" ref="occasionDao" />
+	</bean>
+	<bean id="brandService" class="cn.npnt.tiaps.service.impl.BrandServiceImpl"
+		scope="prototype">
+		<property name="brandDao" ref="brandDao" />
+	</bean>
+	<bean id="criterionService" class="cn.npnt.tiaps.service.impl.CriterionServiceImpl"
+		scope="prototype">
+		<property name="criterionDao" ref="criterionDao" />
+	</bean>
+	<bean id="friendshipService" class="cn.npnt.tiaps.service.impl.FriendshipServiceImpl"
+		scope="prototype">
+		<property name="friendshipDao" ref="friendshipDao" />
+		<property name="lookDao" ref="lookDao" />
+		<property name="timelineDao" ref="timelineDao" />
+	</bean>
+	<bean id="lookService" class="cn.npnt.tiaps.service.impl.LookServiceImpl"
+		scope="prototype">
+		<property name="lookDao" ref="lookDao" />
+		<property name="userDao" ref="userDao" />
+		<property name="friendshipDao" ref="friendshipDao" />
+		<property name="voteDao" ref="voteDao" />
+		<property name="commentDao" ref="commentDao" />
+		<property name="favoriteDao" ref="favoriteDao" />
+		<property name="occasionDao" ref="occasionDao" />
+		<property name="trendDao" ref="trendDao" />
+		<property name="timelineDao" ref="timelineDao"></property>
+	</bean>
+	<bean id="photoService" class="cn.npnt.tiaps.service.impl.PhotoServiceImpl"
+		scope="prototype">
+		<property name="photoDao" ref="photoDao" />
+	</bean>
+	<bean id="favoriteService" class="cn.npnt.tiaps.service.impl.FavoriteServiceImpl"
+		scope="prototype">
+		<property name="favoriteDao" ref="favoriteDao" />
+		<property name="lookDao" ref="lookDao" />
+	</bean>
+	<bean id="shareToSnsService" class="cn.npnt.tiaps.service.impl.ShareToSnsServiceImpl"
+		scope="prototype">
+		<property name="shareToSnsDao" ref="shareToSnsDao" />
+		<property name="lookDao" ref="lookDao" />
+	</bean>
+	<bean id="voteService" class="cn.npnt.tiaps.service.impl.VoteServiceImpl"
+		scope="prototype">
+		<property name="voteDao" ref="voteDao"></property>
+	</bean>
+	<bean id="commentService" class="cn.npnt.tiaps.service.impl.CommentServiceImpl"
+		scope="prototype">
+		<property name="commentDao" ref="commentDao"></property>
+	</bean>
+	<bean id="commentAgreeService" class="cn.npnt.tiaps.service.impl.CommentAgreeServiceImpl"
+		scope="prototype">
+		<property name="commentAgreeDao" ref="commentAgreeDao"></property>
+	</bean>
+	<bean id="timelineService" class="cn.npnt.tiaps.service.impl.TimelineServiceImpl"
+		scope="prototype">
+		<property name="timelineDao" ref="timelineDao"></property>
+	</bean>
+
+
+	<!-- 配置异步线程池中的service -->
+	<bean id="lookSendTimelineWorker" class="cn.npnt.tiaps.workSchedule.LookSendTimeline"
+		scope="prototype">
+		<property name="timelineDao" ref="timelineDao" />
+		<property name="userDao" ref="userDao" />
+		<property name="friendshipDao" ref="friendshipDao" />
+		<property name="mentionDao" ref="mentionDao" />
+	</bean>
+	<bean id="deleteLookWorker" class="cn.npnt.tiaps.workSchedule.DeleteLookWorker"
+		scope="prototype">
+		<property name="timelineDao" ref="timelineDao" />
+		<property name="lookDao" ref="lookDao" />
+	</bean>
+
+	<!-- controller bean -->
+	<bean id="lookFavoriteController" class="cn.npnt.tiaps.controller.LookFavoriteController">
+		<property name="userService" ref="userService" />
+		<property name="lookService" ref="lookService" />
+		<property name="favoriteService" ref="favoriteService" />
+	</bean>
+	<bean id="lookController" class="cn.npnt.tiaps.controller.LookController">
+		<property name="userService" ref="userService" />
+		<property name="lookService" ref="lookService" />
+		<property name="lookSendTimelineWorker" ref="lookSendTimelineWorker" />
+		<property name="deleteLookWorker" ref="deleteLookWorker" />
+		<property name="shareToSnsService" ref="shareToSnsService" />
+		<property name="friendshipService" ref="friendshipService" />
+		<property name="timelineService" ref="timelineService" />
+	</bean>
+	<bean id="lookVoteController" class="cn.npnt.tiaps.controller.LookVoteController">
+		<property name="voteService" ref="voteService" />
+		<property name="lookService" ref="lookService" />
+		<property name="lookSendTimelineWorker" ref="lookSendTimelineWorker" />
+	</bean>
+	<bean id="remindController" class="cn.npnt.tiaps.controller.RemindController">
+		<property name="friendshipService" ref="friendshipService" />
+		<property name="timelineService" ref="timelineService" />
+	</bean>
+	<bean id="userController" class="cn.npnt.tiaps.controller.UserController">
+		<property name="userService" ref="userService" />
+		<property name="trendService" ref="trendService" />
+		<property name="brandService" ref="brandService" />
+		<property name="occasionService" ref="occasionService" />
+		<property name="criterionService" ref="criterionService" />
+		<property name="friendshipService" ref="friendshipService" />
+	</bean>
+	<bean id="friendshipController" class="cn.npnt.tiaps.controller.FriendshipController">
+		<property name="userService" ref="userService" />
+		<property name="friendshipService" ref="friendshipService" />
+	</bean>
+	<bean id="lookCommentController" class="cn.npnt.tiaps.controller.LookCommentController">
+		<property name="commentService" ref="commentService" />
+		<property name="lookService" ref="lookService" />
+		<property name="commentAgreeService" ref="commentAgreeService" />
+		<property name="friendshipService" ref="friendshipService" />
+	</bean>
+
+	<!-- 过滤器配置项 -->
+	<bean id="characterFilter" class="cn.npnt.tiaps.web.CharacterEncodingFilter"
+		scope="prototype">
+	</bean>
+
+	<!-- interceptors -->
+	<bean id="identifyInterceptor" class="cn.npnt.tiaps.web.IdentifyUserInterceptor">
+		<property name="userService" ref="userService" />
+	</bean>
+	<bean id="handlerMapping"
+		class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="interceptors">
+			<list>
+				<ref bean="identifyInterceptor" />
+			</list>
+		</property>
+		<property name="mappings">
+			<props>
+				<prop key="/lookFavorite/*">lookFavoriteController</prop>
+				<prop key="/look/*">lookController</prop>
+				<prop key="/user/*">userController</prop>
+				<prop key="/friendships/*">friendshipController</prop>
+				<prop key="/lookComment/*">lookCommentController</prop>
+				<prop key="/lookVote/*">lookVoteController</prop>
+				<prop key="/remind/*">remindController</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="jobExecuteTimeBean" class="cn.npnt.tiaps.quartzTiming.QuartzJobExecuteTimeBean">
+		<property name="timelineTime">
+			<value>02:58</value>
+		</property>
+		<property name="userHotterTime">
+			<value>04:00</value>
+		</property>
+		<property name="lookHotterTime">
+			<value>05:00</value>
+		</property>
+	</bean>
+	<!-- 跑批用户热度的时候需要配置项，注意：<value></value>之前不可以用空格 -->
+	<bean id="userHotterBean" class="cn.npnt.tiaps.quartzTiming.QuartzUserHotterConsBean">
+		<!-- 计算多少日之内的热度 -->
+		<property name="executeUserHotterDate">
+			<value>3</value>
+		</property>
+		<!-- 别人加关注了的系数 -->
+		<property name="followerRatio">
+			<value>8</value>
+		</property>
+		<!-- 原创look的系数 -->
+		<property name="originalLookRatio">
+			<value>1</value>
+		</property>
+		<!-- look被转发了的系数 -->
+		<property name="repostLookRatio">
+			<value>5</value>
+		</property>
+	</bean>
+	<!-- 微博跑批的时候的热度数据配置项 注意：<value></value>之前不可以用空格 -->
+	<bean id="lookHotterBean" class="cn.npnt.tiaps.quartzTiming.QuartzLookHotterConsBean">
+		<!-- 计算多少日之内的热度 -->
+		<property name="executeLookHotterDate">
+			<value>33</value>
+		</property>
+		<!-- 被收藏的系数 -->
+		<property name="favoriteRatio">
+			<value>8</value>
+		</property>
+		<!-- 被评论的系数 -->
+		<property name="commentRatio">
+			<value>1</value>
+		</property>
+		<!-- look被转发了的系数 -->
+		<property name="repostRatio">
+			<value>5</value>
+		</property>
+		<!-- look被投票的系数 -->
+		<property name="voteRatio">
+			<value>2</value>
+		</property>
+	</bean>
+
+	<bean id="scheduler"
+		class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="applicationContextSchedulerContextKey">
+			<value>applicationContext</value>
+		</property>
+		<property name="dataSource" ref="commonDataSource" />
+		<property name="autoStartup" value="true" />
+		<property name="startupDelay" value="5" />
+		<property name="quartzProperties">
+			<props>
+				<prop key="org.quartz.jobStore.isClustered">false</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- quartz configuration end -->
+
+	<!-- 配置事务管理器 -->
+	<bean id="myTransactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="mySessionFactory" />
+	</bean>
+	
+	<!-- 配置事务拦截器 -->
+	<bean id="transactionInterceptor"
+		class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<!-- 事务拦截器bean需要依赖注入一个事务管理器 -->
+		<property name="transactionManager" ref="myTransactionManager" />
+		<property name="transactionAttributes">
+			<!-- 下面定义事务传播属性 -->
+			<props>
+				<!-- 所有以add开头的方法，采用required的事务策略，并且只读 -->
+				<prop key="create*">PROPAGATION_REQUIRED</prop>
+				<prop key="save*">PROPAGATION_REQUIRED</prop>
+				<!-- 所有以mod开头的方法，采用required的事务策略，并且只读 -->
+				<prop key="mod*">PROPAGATION_REQUIRED</prop>
+				<prop key="update*">PROPAGATION_REQUIRED</prop>
+				<!-- 所有以del开头的方法，采用required的事务策略，并且只读 -->
+				<prop key="del*">PROPAGATION_REQUIRED</prop>
+				<prop key="remove*">PROPAGATION_REQUIRED</prop>
+				<prop key="find*">PROPAGATION_SUPPORTS</prop>
+				<prop key="get*">PROPAGATION_SUPPORTS</prop>
+				<prop key="query*">PROPAGATION_SUPPORTS</prop>
+				<!-- 其他方法，采用required的事务策略 -->
+				<prop key="*">PROPAGATION_REQUIRED</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 定义BeanNameAutoProxyCreator,该bean是个bean后处理器，无需被引用，因此没有id属性 ` 这个bean后处理器，根据事务拦截器为目标bean自动创建事务代理 -->
+	<bean
+		class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<!--指定对满足哪些bean name的bean自动生成业务代理 -->
+		<property name="beanNames">
+			<!-- 下面是所有需要自动创建事务代理的bean -->
+			<list>
+				<value>*Service</value>
+			</list>
+			<!-- 此处可增加其他需要自动创建事务代理的bean -->
+		</property>
+		<!-- 下面定义BeanNameAutoProxyCreator所需的事务拦截器 -->
+		<property name="interceptorNames">
+			<list>
+				<value>transactionInterceptor</value>
+				<!-- 此处可增加其他新的Interceptor -->
+			</list>
+		</property>
+	</bean>
+</beans>

@@ -1,0 +1,1 @@
+package cn.npnt.tiaps.dao;import java.util.List;import cn.npnt.tiaps.base.dao.GenericDao;import cn.npnt.tiaps.entity.Trend;/** *  * @company 新和新拓（北京）科技有限公司 * @author Recoba Gan * @createDate 2011 2011-12-18 下午4:04:15 * @description 主题Dao接口 */public interface TrendDao extends GenericDao<Trend, Long> {	List<Trend> findByCondiiton(Trend trend);}

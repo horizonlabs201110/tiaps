@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2011-12-16 0:03:47 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="cn.npnt.tiaps.entity.Trend" table="trend" catalog="tiaps" where="deleted=0">
+        <id name="id">
+            <column name="id" />
+            <generator class="increment" />
+        </id>
+        <version name="version" type="int">
+            <column name="version" not-null="true" />
+        </version>
+        <property name="deleted" type="boolean">
+            <column name="deleted" not-null="true" />
+        </property>
+        <property name="title" type="string">
+            <column name="title" not-null="true" />
+        </property>
+       <property name="createTime" type="timestamp">
+            <column name="create_time" length="19" not-null="true" />
+        </property>
+        <set name="lookTrends" table="look_trend" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="tend_id" not-null="true" />
+            </key>
+            <one-to-many class="cn.npnt.tiaps.entity.LookTrend" />
+        </set>
+    </class>
+</hibernate-mapping>

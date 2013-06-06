@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2011-12-19 22:17:46 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="cn.npnt.tiaps.entity.Comment" table="comment" catalog="tiaps" where="deleted=0">
+        <id name="id">
+            <column name="id" />
+            <generator class="increment" />
+        </id>
+        <version name="version">
+            <column name="version" not-null="true" />
+        </version>
+        <many-to-one name="user" lazy="false" class="cn.npnt.tiaps.entity.User" fetch="select">
+            <column name="user_id" />
+        </many-to-one>
+        <many-to-one name="look" class="cn.npnt.tiaps.entity.Look" fetch="select">
+            <column name="look_id" not-null="true" />
+        </many-to-one>
+        <property name="createTime" type="timestamp">
+            <column name="create_time" length="19" />
+        </property>
+        <property name="deleted" type="java.lang.Boolean">
+            <column name="deleted" not-null="true" />
+        </property>
+        <property name="comment" type="string">
+            <column name="comment" />
+        </property>
+        <property name="reportAbuse" type="java.lang.Integer">
+            <column name="report_abuse">
+            </column>
+        </property>
+        <property name="agreeCount" type="java.lang.Integer">
+            <column name="agree_count">
+            </column>
+        </property>
+        <set name="commentAgrees" table="comment_agree" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="comment_id" not-null="true" />
+            </key>
+            <one-to-many class="cn.npnt.tiaps.entity.CommentAgree" />
+        </set>
+    </class>
+</hibernate-mapping>

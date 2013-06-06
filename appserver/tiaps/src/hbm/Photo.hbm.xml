@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2011-12-19 22:17:46 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping package="cn.npnt.tiaps.entity">
+    <class name="Photo" table="photo" catalog="tiaps" where="deleted=0">
+        <id name="id">
+            <column name="id" />
+            <generator class="increment" />
+        </id>
+        <version name="version" type="int">
+            <column name="version" not-null="true" />
+        </version>
+        <many-to-one name="look" class="Look" fetch="select">
+            <column name="look_id" not-null="true" />
+        </many-to-one>
+        <property name="deleted" type="boolean">
+            <column name="deleted" not-null="true" />
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="create_time" length="19" not-null="true" />
+        </property>
+        <property name="picUrl" type="string">
+            <column name="pic_url" not-null="true" />
+        </property>
+        <property name="vistedCount" type="java.lang.Integer">
+            <column name="visted_count">
+                <comment>&#180;&#211;&#202;&#215;&#210;&#179;&#214;&#208;&#214;&#177;&#189;&#211;&#181;&#227;&#187;&#247;&#181;&#196;&#202;&#253;&#193;&#191;</comment>
+            </column>
+        </property>
+        <!-- <property name="index" type="java.lang.Byte">
+            <column name="index">
+                <comment>index,&#180;&#211;1&#191;&#170;&#202;&#188;</comment>
+            </column>
+        </property> -->
+        <property name="index" column="index_num" not-null="true"/>
+        <property name="thumbUrl" type="string">
+            <column name="thumb_url">
+                <comment>&#203;&#245;&#194;&#212;&#205;&#188;</comment>
+            </column>
+        </property>
+        <property name="shopUrl" type="string">
+            <column name="shop_url">
+                <comment>&#212;&#164;&#193;&#244;</comment>
+            </column>
+        </property>
+        <set name="wearBrands" table="wear_brand" cascade="all" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="photo_id" not-null="true" />
+            </key>
+            <one-to-many class="WearBrand" />
+        </set>
+    </class>
+</hibernate-mapping>

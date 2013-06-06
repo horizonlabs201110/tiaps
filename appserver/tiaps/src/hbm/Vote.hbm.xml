@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2011-12-19 22:17:46 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="cn.npnt.tiaps.entity.Vote" table="vote" catalog="tiaps">
+        <id name="id">
+            <column name="id" />
+            <generator class="increment" />
+        </id>
+        <version name="version" type="int">
+            <column name="version" not-null="true" />
+        </version>
+        <many-to-one name="user" class="cn.npnt.tiaps.entity.User" fetch="select">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="look" class="cn.npnt.tiaps.entity.Look" fetch="select">
+            <column name="look_id" />
+        </many-to-one>
+        <property name="createTime" type="timestamp">
+            <column name="create_time" length="19" not-null="true" />
+        </property>
+        <property name="photoIndex" type="java.lang.Byte">
+            <column name="photo_index">
+                <comment>
+                &#207;&#178;&#187;&#182;&#181;&#218;&#188;&#184;&#213;&#197;&#213;&#213;&#198;&#172;&#163;&#172;index&#180;&#211;1&#191;&#170;&#202;&#188;&#161;&#163;&#182;&#224;&#213;&#197;&#213;&#213;&#198;&#172;0&#177;&#237;&#202;&#190;&#182;&#188;&#178;&#187;&#207;&#178;&#187;&#182;&#163;&#172;&#210;&#187;&#213;&#197;&#213;&#213;&#198;&#172;&#177;&#237;&#202;&#190;&#187;&#187;&#210;&#187;&#213;&#197;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

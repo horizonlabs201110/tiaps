@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2011-12-19 22:17:46 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="cn.npnt.tiaps.entity.Criterion" table="criterion" catalog="tiaps">
+        <id name="id">
+            <column name="id" />
+            <generator class="increment" />
+        </id>
+        <property name="category" type="string">
+            <column name="category" not-null="true" />
+        </property>
+        <property name="title" type="string">
+            <column name="title" not-null="true" />
+        </property>
+        <property name="hotter" type="short">
+            <column name="hotter" not-null="true">
+                <comment>
+                &#203;&#209;&#203;&#247;&#181;&#196;&#200;&#200;&#182;&#200;&#163;&#172;&#189;&#168;&#210;&#233;&#180;&#211;1-10&#163;&#172;10&#215;&#238;&#184;&#223;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

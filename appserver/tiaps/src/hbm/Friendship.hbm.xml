@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2011-12-19 22:17:46 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="cn.npnt.tiaps.entity.Friendship" table="friendship" catalog="tiaps">
+        <id name="id">
+            <column name="id" />
+            <generator class="increment" />
+        </id>
+        <version name="version" type="int">
+            <column name="version" not-null="true" />
+        </version>
+        <many-to-one name="userByUserId" lazy="false" class="cn.npnt.tiaps.entity.User" fetch="select">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="userByFollowingId" lazy="false" class="cn.npnt.tiaps.entity.User" fetch="select">
+            <column name="following_id" not-null="true" />
+        </many-to-one>
+        <property name="createTime" type="timestamp">
+            <column name="create_time" length="19" not-null="true" />
+        </property>
+        <property name="informed" type="boolean">
+            <column name="informed" not-null="true">
+                <comment>
+                &#177;&#187;&#185;&#216;&#215;&#162;&#213;&#223;&#202;&#199;&#183;&#241;&#210;&#209;&#190;&#173;&#214;&#170;&#207;&#254;&#184;&#195;&#204;&#245;&#185;&#216;&#215;&#162;&#208;&#197;&#207;&#162;</comment>
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,1 @@
+package cn.npnt.tiaps.service;import java.util.List;import cn.npnt.tiaps.entity.Criterion;import cn.npnt.tiaps.vo.CriterionVO;public interface CriterionService {	List<CriterionVO> getAll();		Criterion getByPK(long id);}

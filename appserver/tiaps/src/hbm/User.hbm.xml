@@ -1,0 +1,171 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2011-12-16 0:03:47 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="cn.npnt.tiaps.entity.User" table="user" catalog="tiaps" where="deleted=0">
+        <id name="id">
+            <column name="id" />
+            <generator class="increment" />
+        </id>
+        <version name="version" type="int">
+            <column name="version" not-null="true">
+                <comment>0</comment>
+            </column>
+        </version>
+        <property name="createTime" type="timestamp">
+            <column name="create_time" length="19" not-null="true" />
+        </property>
+        <property name="deleted" type="boolean">
+            <column name="deleted" not-null="true">
+                <comment>&#202;&#199;&#183;&#241;&#187;&#238;&#212;&#190;&#163;&#172;&#201;&#190;&#179;&#253;&#177;&#234;&#202;&#182;</comment>
+            </column>
+        </property>
+        <property name="nickname" type="string">
+            <column name="nickname" not-null="true">
+                <comment>&#206;&#168;&#210;&#187;&#163;&#172;&#178;&#187;&#196;&#220;&#214;&#216;&#184;&#180;</comment>
+            </column>
+        </property>
+        <property name="email" type="string">
+            <column name="email" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password"/>
+        </property>
+        <property name="accessId" type="string">
+            <column name="access_id" />
+        </property>
+        <property name="gender" type="int">
+            <column name="gender" not-null="true">
+                <comment>0:&#196;&#208;,1:&#197;&#174;,2:&#206;&#180;&#214;&#170;</comment>
+            </column>
+        </property>
+        <property name="mobile" type="string">
+            <column name="mobile">
+                <comment>&#202;&#214;&#187;&#250;</comment>
+            </column>
+        </property>
+        <property name="introduce" type="string">
+            <column name="introduce">
+                <comment>&#215;&#212;&#206;&#210;&#189;&#233;&#201;&#220;</comment>
+            </column>
+        </property>
+        <property name="userDesc" type="string">
+            <column name="user_desc">
+                <comment>
+                &#207;&#181;&#205;&#179;&#182;&#212;&#211;&#218;&#184;&#196;&#211;&#195;&#187;&#167;&#181;&#196;&#195;&#232;&#202;&#246;&#163;&#172;&#211;&#195;&#211;&#218;&#205;&#198;&#188;&#246;&#211;&#195;&#161;&#163;&#212;&#164;&#193;&#244;</comment>
+            </column>
+        </property>
+        <property name="province" type="string">
+            <column name="province">
+                <comment>&#202;&#161;&#183;&#221;</comment>
+            </column>
+        </property>
+        <property name="city" type="string">
+            <column name="city" />
+        </property>
+        <property name="figureUrl" type="string">
+            <column name="figure_url">
+                <comment>&#205;&#183;&#207;&#241;url</comment>
+            </column>
+        </property>
+        <property name="userType" type="short">
+            <column name="user_type" not-null="true">
+                <comment>
+                &#211;&#195;&#187;&#167;&#192;&#224;&#208;&#205;.0:&#198;&#213;&#205;&#168;&#211;&#195;&#187;&#167;&#163;&#187;&#198;&#228;&#203;&#251;&#214;&#181;&#206;&#170;&#192;&#169;&#213;&#185;&#212;&#164;&#193;&#244;&#161;&#163;&#177;&#200;&#200;&#231;:&#188;&#217;&#211;&#195;&#187;&#167;&#163;&#172;&#196;&#163;&#204;&#216;&#211;&#195;&#187;&#167;&#181;&#200;</comment>
+            </column>
+        </property>
+        <property name="snsType" type="int">
+            <column name="sns_type" not-null="true">
+                <comment>0:local;1:sina,2:qq</comment>
+            </column>
+        </property>
+        <property name="snsId" type="string">
+            <column name="sns_id">
+                <comment>
+                &#200;&#231;&#185;&#251;&#211;&#195;&#187;&#167;&#202;&#199;&#205;&#168;&#185;&#253;&#181;&#218;&#200;&#253;&#183;&#189;&#215;&#162;&#178;&#225;&#181;&#199;&#194;&#189;&#181;&#196;&#163;&#172;&#212;&#242;&#177;&#163;&#180;&#230;&#181;&#218;&#200;&#253;&#183;&#189;sns&#181;&#196;id&#161;&#163;QQ&#206;&#170;open_id,sina&#206;&#170;uid</comment>
+            </column>
+        </property>
+        <property name="msgNotifiable" type="java.lang.Boolean">
+            <column name="msg_notifiable">
+                <comment>&#202;&#199;&#183;&#241;&#212;&#202;&#208;&#237;&#207;&#251;&#207;&#162;&#205;&#198;&#203;&#205;</comment>
+            </column>
+        </property>
+        <property name="emailNotifiable" type="java.lang.Boolean">
+            <column name="email_notifiable">
+                <comment>&#202;&#199;&#183;&#241;&#212;&#202;&#208;&#237;&#211;&#202;&#188;&#254;&#204;&#225;&#208;&#209;</comment>
+            </column>
+        </property>
+        <property name="lastAcitveTime" type="timestamp">
+            <column name="last_acitve_time" length="19">
+                <comment>&#215;&#238;&#186;&#243;&#210;&#187;&#180;&#206;&#183;&#195;&#206;&#202;&#202;&#177;&#188;&#228;</comment>
+            </column>
+        </property>
+        <property name="updateTime" type="timestamp">
+            <column name="update_time" length="19" />
+        </property>
+        <property name="activability" type="int">
+            <column name="activability"></column>
+        </property>
+        <set name="friendshipsForUserId" table="friendship" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="cn.npnt.tiaps.entity.Friendship" />
+        </set>
+        <set name="friendshipsForFollowingId" table="friendship" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="following_id" not-null="true" />
+            </key>
+            <one-to-many class="cn.npnt.tiaps.entity.Friendship" />
+        </set>
+        <!-- <set name="commentAgrees" table="comment_agree" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="cn.npnt.tiaps.entity.CommentAgree" />
+        </set>
+        <set name="looks" table="look" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="cn.npnt.tiaps.entity.Look" />
+        </set>
+        <set name="mentions" table="mention" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="cn.npnt.tiaps.entity.Mention" />
+        </set>
+        <set name="shareToSnses" table="share_to_sns" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="cn.npnt.tiaps.entity.ShareToSns" />
+        </set>
+        <set name="votes" table="vote" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="cn.npnt.tiaps.entity.Vote" />
+        </set>
+        <set name="favorites" table="favorite" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" not-null="true" />
+            </key>
+            <one-to-many class="cn.npnt.tiaps.entity.Favorite" />
+        </set>
+        <set name="comments" table="comment" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" />
+            </key>
+            <one-to-many class="cn.npnt.tiaps.entity.Comment" />
+        </set>
+        <set name="timeLines" table="time_line" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="user_id" />
+            </key>
+            <one-to-many class="cn.npnt.tiaps.entity.TimeLine" />
+        </set> -->
+    </class>
+</hibernate-mapping>

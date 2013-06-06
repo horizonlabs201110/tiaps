@@ -1,0 +1,1 @@
+package cn.npnt.tiaps.base.vo;public class BaseBodyVO {}

@@ -1,0 +1,1 @@
+package cn.npnt.tiaps.dao.impl;import cn.npnt.tiaps.base.dao.impl.HibernateGenericDao;import cn.npnt.tiaps.dao.BrandDao;import cn.npnt.tiaps.entity.Brand;public class HibernateBrandDaoImpl extends HibernateGenericDao<Brand, Long> implements BrandDao {		}

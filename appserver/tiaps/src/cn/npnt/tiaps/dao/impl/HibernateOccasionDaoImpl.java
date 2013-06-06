@@ -1,0 +1,1 @@
+package cn.npnt.tiaps.dao.impl;import cn.npnt.tiaps.base.dao.impl.HibernateGenericDao;import cn.npnt.tiaps.dao.OccasionDao;import cn.npnt.tiaps.entity.Occasion;public class HibernateOccasionDaoImpl extends HibernateGenericDao<Occasion, Long>		implements OccasionDao {}

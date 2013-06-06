@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2011-12-28 15:10:15 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="cn.npnt.tiaps.entity.Timeline" table="timeline" catalog="tiaps">
+		<composite-id name="id" class="cn.npnt.tiaps.entity.TimelineId">
+            <key-property name="userId" type="long">
+                <column name="user_id" />
+            </key-property>
+            <key-property name="lookId" type="long">
+                <column name="look_id" />
+            </key-property>
+        </composite-id>
+		<many-to-one name="user" class="cn.npnt.tiaps.entity.User" update="false" insert="false" fetch="select">
+            <column name="user_id" not-null="true" />
+        </many-to-one>
+        <many-to-one name="look" class="cn.npnt.tiaps.entity.Look" update="false" insert="false" fetch="select">
+            <column name="look_id" not-null="true" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2011-12-19 22:17:46 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping package="cn.npnt.tiaps.entity">
+    <class name="LookStatistic" table="look_statistic" catalog="tiaps">
+        <id name="id">
+            <column name="id" />
+            <generator class="foreign">
+                <param name="property">look</param>
+            </generator>
+        </id>
+        <one-to-one name="look" class="Look" constrained="true"></one-to-one>
+        <property name="repostCount" type="int">
+            <column name="repost_count" not-null="true">
+            </column>
+        </property>
+        <property name="reportAbuse" type="int">
+            <column name="report_abuse" not-null="true">
+            </column>
+        </property>
+        <property name="vistedCount" type="java.lang.Integer">
+            <column name="visted_count">
+            </column>
+        </property>
+        <property name="favoritedCount" type="java.lang.Integer">
+            <column name="favorited_count">
+            </column>
+        </property>
+        <property name="verdict" type="java.lang.Byte">
+            <column name="verdict">
+            </column>
+        </property>
+        <property name="nominal" type="java.lang.Integer">
+            <column name="nominal">
+            </column>
+        </property>
+        <property name="hotter" type="java.lang.Integer">
+            <column name="hotter">
+            </column>
+        </property>
+    </class>
+</hibernate-mapping>
